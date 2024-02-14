@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -28,7 +28,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $user = new User();
         $user->name = $request->get('name');
@@ -64,13 +64,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, string $id)
     {
-        $user = User::find($id);
-        $user->name = $request->get('name');
-        $user->email = $request->get('email');
-        $user->is_admin = $request->has('is_admin');
-        $user->is_active = $request->has('is_active');
+        $user = User::query()->find($id);
+        $user->fill($request->all());
         $user->save();
         return redirect('/users');
     }
@@ -80,11 +77,20 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $confirm = confirm('Hesabi silmeye eminszi?');
-        if ($confirm) {
-            $user->delete();
+        $user->delete();
+        return redirect('/users');
+    }
 
-        }
+    public function passwordForm(User $user)
+    {
+        return view('backend.users.password_form', ['user' => $user]);
+
+    }
+
+    public function changepassword(User $user, UserRequest $request)
+    {
+        $user->password = $request->get('password');
+        $user->save();
         return redirect('/users');
     }
 }
