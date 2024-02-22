@@ -44,7 +44,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
 
 
@@ -53,9 +53,9 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
+
         return view('backend.users.update_form', ['user' => $user]);
 
 
@@ -64,9 +64,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, string $id)
+    public function update(UserRequest $request, User $user)
     {
-        $user = User::query()->find($id);
         $user->fill($request->all());
         $user->save();
         return redirect('/users');
@@ -92,5 +91,31 @@ class UserController extends Controller
         $user->password = $request->get('password');
         $user->save();
         return redirect('/users');
+    }
+
+
+    public function all()
+    {
+        return [
+            'success' => true,
+            'users' => User::all()
+        ];
+    }
+
+    public function view(User $user)
+    {
+        return [
+            'success' => true,
+            'user' => $user
+        ];
+    }
+
+    public function me()
+    {
+        return [
+            "success" => true,
+            "user" => auth()->user()
+        ];
+
     }
 }

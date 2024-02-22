@@ -42,14 +42,14 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
+                        <a class="nav-link active" aria-current="page" href="/users">
                             <span data-feather="home"></span>
                             Idareetme Paneli
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users">
-                            <span data-feather="users"></span>
+                        <a class="nav-link" href="/login">
+                            <span data-feather="users">Daxil ol</span>
 
                         </a>
                     </li>
